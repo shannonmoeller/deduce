@@ -1,6 +1,6 @@
 {
   "name": "deduce",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Composable state containers.",
   "main": "lib/deduce.js",
   "scripts": {
@@ -18,8 +18,7 @@
     "url": "https://github.com/shannonmoeller/deduce/issues"
   },
   "homepage": "https://github.com/shannonmoeller/deduce",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "ava": "^0.14.0",
     "babel-cli": "^6.7.5",
