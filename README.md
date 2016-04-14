@@ -53,7 +53,7 @@ export default function foo(initialState) {
     return Number(initialState) || 0;
 }
 
-fooOffset(state, val = 0) {
+export function fooOffset(state, val = 0) {
     return state + val;
 }
 
@@ -63,7 +63,7 @@ export default function bar(initialState) {
     return Number(initialState) || 0;
 }
 
-barOffset(state, val = 0) {
+export function barOffset(state, val = 0) {
     return state - val;
 }
 
