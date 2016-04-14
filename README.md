@@ -130,63 +130,69 @@ Returns the current state of the store.
 
 #### Dispatchers
 
-TODO
+TODO - Dispatchers are automatically created based on reducer names. Like Redux actions, reducer names should be globally unique.
 
 ## Why?
 
-The typical Redux patterns (admittedly) entail a lot of boilerplate. The documented and accepted patterns for reducing that really just swap one kind of boilerplate for another:
+The typical Redux patterns (admittedly) entail a lot of boilerplate. The documented and accepted [patterns for reducing boilerplate](https://github.com/reactjs/redux/blob/7fe001c/docs/recipes/ReducingBoilerplate.md) really just swap one kind for another:
 
 ### Redux Example
+
+The following Redux example creates a store with two values; `foo` which may be incremented and `bar` which may be decremented.
 
 ```js
 import { createStore, combineReducers } from 'redux';
 
 // foo
 
-const FOO_ACTION_TYPE = 'FOO_ACTION_TYPE';
+const FOO_INCREMENT = 'FOO_INCREMENT';
 
-const foo = {
-    [FOO_ACTION_TYPE]: (state = 0, action) {
+const fooInitial = 0;
+
+const fooActions = {
+    [FOO_INCREMENT]: (state = fooInitial, action) {
         return state + action.payload;
     }
 };
 
-function fooReducer(state = {}, action) {
+function foo(state = {}, action) {
     if (action.type in foo) {
-        return foo[action.type](state, action);
+        return fooActions[action.type](state, action);
     }
 
     return state;
 }
 
-function createFooAction(payload) {
+function createFooIncrementAction(payload) {
     return {
-        type: FOO_ACTION_TYPE,
+        type: FOO_INCREMENT,
         payload
     };
 }
 
 // bar
 
-const BAR_ACTION_TYPE = 'BAR_ACTION_TYPE';
+const BAR_DECREMENT = 'BAR_DECREMENT';
 
-const bar = {
-    [BAR_ACTION_TYPE]: (state = 0, action) {
-        return state + action.payload;
+const barInitial = 0;
+
+const barActions = {
+    [BAR_DECREMENT]: (state = barInitial, action) {
+        return state - action.payload;
     }
 };
 
-function barReducer(state = {}, action) {
+function bar(state, action) {
     if (action.type in bar) {
-        return bar[action.type](state, action);
+        return barActions[action.type](state, action);
     }
 
     return state;
 }
 
-function createBarAction(payload) {
+function createBarDecrementAction(payload) {
     return {
-        type: BAR_ACTION_TYPE,
+        type: BAR_DECREMENT,
         payload
     };
 }
@@ -198,8 +204,8 @@ const store = createStore(reducer, {});
 
 // application
 
-store.dispatch(createFooAction(1));
-store.dispatch(createBarAction(-1));
+store.dispatch(createFooIncrementAction(1));
+store.dispatch(createBarDecrementAction(1));
 
 store.getState();
 // {
@@ -208,11 +214,11 @@ store.getState();
 // }
 ```
 
-Split that up into modules and you can see why new-comers may be easily overwhelmed when the underlying principles are beautifully clean and simple.
+Split that up into modules and you can see how new-comers could easily be overwhelmed when the underlying principles are beautifully clean and simple.
 
 ### Deduce Exmaple
 
-Compare [the above](#redux-example) with this `deduce` example:
+Compare [the above](#redux-example) with this `deduce` example which does the same thing:
 
 ```js
 import { createStoreMap } from 'deduce';
@@ -222,7 +228,7 @@ import { createStoreMap } from 'deduce';
 const fooInitial = 0;
 
 const foo = {
-    fooReducer(state = fooInitial, val) {
+    fooIncrement(state = fooInitial, val) {
         return state + val;
     }
 };
@@ -232,7 +238,7 @@ const foo = {
 const barInitial = 0;
 
 const bar = {
-    barReducer(state = barInitial, val) {
+    barDecrement(state = barInitial, val) {
         return state - val;
     }
 };
@@ -243,8 +249,8 @@ const store = createStoreMap({ foo, bar });
 
 // application
 
-store.fooReducer(1);
-store.barReducer(1);
+store.fooIncrement(1);
+store.barDecrement(1);
 
 store.getState();
 // {
@@ -252,6 +258,10 @@ store.getState();
 //   bar: -1
 // }
 ```
+
+## Tradeoffs
+
+TODO
 
 ## Contribute
 
