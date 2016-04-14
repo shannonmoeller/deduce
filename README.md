@@ -218,7 +218,7 @@ Split that up into modules and you can see how new-comers could easily be overwh
 
 ### Deduce Exmaple
 
-Compare [the above](#redux-example) with this `deduce` example which does the same thing:
+Compare [the above](#redux-example) with this `deduce` example that does the same thing:
 
 ```js
 import { createStoreMap } from 'deduce';

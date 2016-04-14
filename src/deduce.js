@@ -10,21 +10,6 @@ function applyReducerMap(state, prop, fn, args) {
 	return { ...state, [prop]: fn(state[prop], ...args) };
 }
 
-function createComposable(getState, addListener) {
-	return Object.create({}, {
-		getState: {
-			enumerable: false,
-			writable: false,
-			value: getState
-		},
-		addListener: {
-			enumerable: false,
-			writable: false,
-			value: addListener
-		}
-	});
-}
-
 /**
  * Creates a store from a reducer function.
  *
@@ -87,7 +72,7 @@ export function createStore(reducer, state) {
  */
 export function composeStore(reducers, state) {
 	const { getState, addListener, dispatch } = createStore(applyReducer, state);
-	const store = createComposable(getState, addListener);
+	const store = { getState, addListener };
 
 	if (typeof reducers.default === 'function') {
 		dispatch(reducers.default, [state]);
@@ -121,7 +106,7 @@ export function composeStore(reducers, state) {
  */
 export function composeStoreMap(reducersMap, state = {}) {
 	const { getState, addListener, dispatch } = createStore(applyReducerMap, state);
-	const storeMap = createComposable(getState, addListener);
+	const storeMap = { getState, addListener };
 
 	Object.keys(reducersMap).forEach(mapKey => {
 		const reducers = reducersMap[mapKey];
