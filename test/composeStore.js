@@ -25,3 +25,10 @@ test('should add a listener', async t => {
 
 	store.offset(2);
 });
+
+test('should disallow name collisions', async t => {
+	const a = { getState: () => {} };
+	const b = { addListener: () => {} };
+
+	t.throws(() => composeStore({ ...a, ...b }), /must be unique/);
+});

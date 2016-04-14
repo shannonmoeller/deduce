@@ -41,7 +41,7 @@ test('should add a listener', async t => {
 	store.fooOffset(2);
 });
 
-test('should disallow reducer name collisions', async t => {
+test('should disallow name collisions', async t => {
 	const a = { foo: () => {} };
 	const b = { foo: () => {} };
 

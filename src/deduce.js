@@ -100,6 +100,10 @@ export function composeStore(reducers, state) {
 			return;
 		}
 
+		if (store.hasOwnProperty(reducerKey)) {
+			throw new Error('Reducer names must be unique.');
+		}
+
 		store[reducerKey] = (...args) => dispatch(fn, args);
 	});
 
