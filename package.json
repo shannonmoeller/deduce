@@ -1,5 +1,6 @@
 {
   "name": "deduce",
+  "version": "0.0.0-semantic-release",
   "description": "Composable state containers.",
   "license": "MIT",
   "repository": {
