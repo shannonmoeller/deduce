@@ -1,6 +1,6 @@
 {
   "name": "deduce",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Composable state containers.",
   "main": "lib/deduce.js",
   "scripts": {
