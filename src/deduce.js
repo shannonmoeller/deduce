@@ -54,8 +54,16 @@ export function createStore(reducer, state) {
 		}
 
 		isDispatching = true;
-		state = reducer(state, ...args);
-		listeners.slice().forEach(l => l());
+
+		try {
+			state = reducer(state, ...args);
+			listeners.slice().forEach(l => l());
+		}
+		catch (err) {
+			isDispatching = false;
+			throw err;
+		}
+
 		isDispatching = false;
 	}
 
@@ -85,7 +93,7 @@ export function composeStore(reducers, state) {
 			return;
 		}
 
-		if (store.hasOwnProperty(reducerKey)) {
+		if (reducerKey in store) {
 			throw new Error('Reducer names must be unique.');
 		}
 
@@ -122,7 +130,7 @@ export function composeStoreMap(reducersMap, state = {}) {
 				return;
 			}
 
-			if (storeMap.hasOwnProperty(reducerKey)) {
+			if (reducerKey in storeMap) {
 				throw new Error('Reducer names must be unique.');
 			}
 
