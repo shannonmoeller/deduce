@@ -1,9 +1,11 @@
 {
   "name": "deduce",
-  "version": "0.2.0",
   "description": "Composable state containers.",
   "license": "MIT",
-  "repository": "shannonmoeller/deduce",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shannonmoeller/deduce.git"
+  },
   "homepage": "https://github.com/shannonmoeller/deduce#readme",
   "author": {
     "name": "Shannon Moeller",
@@ -26,12 +28,14 @@
     "coveralls": "^2.11.12",
     "nyc": "^8.1.0",
     "rimraf": "^2.5.4",
+    "semantic-release": "^4.3.5",
     "xo": "^0.16.0"
   },
   "scripts": {
     "coveralls": "nyc report -r text-lcov | coveralls",
     "prepublish": "rimraf lib && babel src --out-dir lib",
     "pretest": "xo '*.js' '{src,test}/**/*.js'",
+    "release": "semantic-release pre && npm publish && semantic-release post",
     "test": "nyc -r lcov -r text ava -v",
     "watch": "chokidar '{src,test}/**/*.js' -c 'npm test'"
   },
