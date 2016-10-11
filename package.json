@@ -30,7 +30,7 @@
     "nyc": "^8.1.0",
     "rimraf": "^2.5.4",
     "semantic-release": "^4.3.5",
-    "xo": "^0.16.0"
+    "xo": "^0.17.0"
   },
   "scripts": {
     "coveralls": "nyc report -r text-lcov | coveralls",
