@@ -259,10 +259,6 @@ store.getState();
 // }
 ```
 
-## Tradeoffs
-
-TODO
-
 ## Contribute
 
 Standards for this project, including tests, code coverage, and semantics are enforced with a build tool. Pull requests must include passing tests with 100% code coverage and no linting errors.
