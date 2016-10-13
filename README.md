@@ -282,5 +282,5 @@ Licensed under [MIT](http://shannonmoeller.com/mit.txt)
 [gitter-url]:    https://gitter.im/shannonmoeller/shannonmoeller
 [npm-img]:       http://img.shields.io/npm/v/deduce.svg?style=flat-square
 [npm-url]:       https://npmjs.org/package/deduce
-[travis-img]:    http://img.shields.io/travis/shannonmoeller/deduce.svg?style=flat-square
+[travis-img]:    http://img.shields.io/travis/shannonmoeller/deduce/master.svg?style=flat-square
 [travis-url]:    https://travis-ci.org/shannonmoeller/deduce
