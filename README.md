@@ -1,6 +1,6 @@
 # `deduce`
 
-[![NPM version][npm-img]][npm-url] [![Downloads][downloads-img]][npm-url] [![Build Status][travis-img]][travis-url] [![Coverage Status][coveralls-img]][coveralls-url] [![Chat][gitter-img]][gitter-url] [![Tip][amazon-img]][amazon-url]
+[![NPM version][npm-img]][npm-url] [![Downloads][downloads-img]][npm-url] [![Build Status][travis-img]][travis-url] [![Coverage Status][coveralls-img]][coveralls-url] [![Tip][amazon-img]][amazon-url]
 
 Composable state containers. Similar in principal to Redux, but prefers named reducers over action objects.
 
@@ -278,8 +278,6 @@ Licensed under [MIT](http://shannonmoeller.com/mit.txt)
 [coveralls-img]: http://img.shields.io/coveralls/shannonmoeller/deduce/master.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/shannonmoeller/deduce
 [downloads-img]: http://img.shields.io/npm/dm/deduce.svg?style=flat-square
-[gitter-img]:    http://img.shields.io/badge/gitter-join_chat-1dce73.svg?style=flat-square
-[gitter-url]:    https://gitter.im/shannonmoeller/shannonmoeller
 [npm-img]:       http://img.shields.io/npm/v/deduce.svg?style=flat-square
 [npm-url]:       https://npmjs.org/package/deduce
 [travis-img]:    http://img.shields.io/travis/shannonmoeller/deduce/master.svg?style=flat-square
