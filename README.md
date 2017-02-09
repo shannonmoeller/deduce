@@ -130,7 +130,7 @@ Returns the current state of the store.
 
 #### Dispatchers
 
-TODO - Dispatchers are automatically created based on reducer names. Like Redux actions, reducer names should be globally unique.
+TODOC - Dispatchers are automatically created based on reducer names. Like Redux actions, reducer names should be globally unique.
 
 ## Why?
 
