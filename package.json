@@ -1,6 +1,6 @@
 {
   "name": "deduce",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "Composable state containers.",
   "scripts": {
     "prepublish": "rimraf dist && babel src --out-dir dist",
