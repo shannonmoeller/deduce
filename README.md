@@ -1,21 +1,23 @@
 # `deduce`
 
-[![NPM version][npm-img]][npm-url] [![Downloads][downloads-img]][npm-url] [![Build Status][travis-img]][travis-url] [![Coverage Status][coveralls-img]][coveralls-url] [![Tip][amazon-img]][amazon-url]
+[![NPM version][npm-img]][npm-url]
+[![Downloads][downloads-img]][npm-url]
+[![Build Status][travis-img]][travis-url]
+[![Coverage Status][coveralls-img]][coveralls-url]
+[![Tip][amazon-img]][amazon-url]
 
-Composable state containers. Similar in principal to Redux, but prefers named reducers over action objects.
+Ridiculously easy JavaScript state containers with action methods. Like [Redux](https://github.com/reactjs/redux) without all the `switch` statements.
 
 ## Install
 
-    $ npm install --save deduce
+```
+npm install --save deduce
+```
 
 ## Usage
 
 ```js
 // reducers.js
-
-export default function init(initialState) {
-    return Number(initialState) || 0;
-}
 
 export function increment(state, val = 1) {
     return state + val;
@@ -30,119 +32,92 @@ export function decrement(state, val = 1) {
 import deduce from 'deduce';
 import * as reducers from './reducers';
 
-const store = composeStore(reducers, '1');
+const store = deduce(1, reducers);
 
 store.addListener(() => {
-    console.log(store.getState());
+    console.log(store.state);
 });
 
-store.increment();
-// log: 2
-
-store.increment(2);
-// log: 4
-
-store.decrement(1);
-// log: 3
-```
-
-```js
-// foo.js
-
-export default function foo(initialState) {
-    return Number(initialState) || 0;
-}
-
-export function fooOffset(state, val = 0) {
-    return state + val;
-}
-
-// bar.js
-
-export default function bar(initialState) {
-    return Number(initialState) || 0;
-}
-
-export function barOffset(state, val = 0) {
-    return state - val;
-}
-
-// store.js
-
-import { composeStoreMap } from 'deduce';
-import * as foo from './foo';
-import * as bar from './bar';
-
-const store = composeStoreMap(
-    {
-        foo,
-        bar
-    },
-    {
-        foo: '1'
-    }
-);
-
-store.addListener(() => {
-    console.log(store.getState());
-});
-
-store.fooOffset(1);
-// log: {
-//   foo: 2,
-//   bar: 0
-// }
-
-store.barOffset(1);
-// log: {
-//   foo: 2,
-//   bar: -1
-// }
+store.increment();  // -> 2
+store.increment(2); // -> 4
+store.decrement();  // -> 3
+store.decrement(2); // -> 1
 ```
 
 ## API
 
-### createStore(reducer, initialState) : Store
+### deduce(initialState, actions) : Store
 
-- `reducer` `Function`
 - `initialState` `*`
-
-### composeStore(reducers, initialState) : Store
-
-- `reducers` `Object<String,Function>`
-- `initialState` `*`
-
-### composeStoreMap(reducersMap, initialState) : Store
-
-- `reducersMap` `<Object<String,Object<String,Function>>`
-- `initialState` `Object<String,*>`
+- `actions` `Object<String,Function>`
 
 ### Store
 
-#### .getState() : *
+#### .state
 
-Returns the current state of the store.
+Current state of the store.
 
-#### .addListener(callback) : Function
+```js
+const store = deduce({ foo: 1 });
+
+console.log(store.state); // -> { foo: 1 }
+```
+
+#### .addActions(actions): Store
+
+- `actions` `Object<String,Function>`
+
+Registers actions to modify the state. Chainable.
+
+```js
+store.addActions({
+    increment(state, val) {
+        return {
+            ...state,
+            foo: state.foo + val,
+        };
+    },
+});
+```
+
+#### .addActionsFor(property, actions): Store
+
+- `property` `String`
+- `actions` `Object<String,Function>`
+
+Registers actions to modify a specific state property. Chainable.
+
+```js
+store.addActionsFor('foo', {
+    increment(state, val) {
+        return state + val;
+    },
+});
+```
+
+#### .addListener(callback): Function
 
 - `callback` `Function`
-- Returns a function to remove the listener.
 
-#### Dispatchers
+Adds a listener to be called any time the state is updated. Returns a function to remove the listener.
 
-TODOC - Dispatchers are automatically created based on reducer names. Like Redux actions, reducer names should be globally unique.
+```js
+const removeListener = store.addListener(() => {
+    console.log(store.state);
+});
+
+store.increment();
+```
 
 ## Why?
 
-The typical Redux patterns (admittedly) entail a lot of boilerplate. The documented and accepted [patterns for reducing boilerplate](https://github.com/reactjs/redux/blob/7fe001c/docs/recipes/ReducingBoilerplate.md) really just swap one kind for another:
+The typical Redux patterns entail a lot of boilerplate. The documented and accepted [patterns for reducing boilerplate](https://github.com/reactjs/redux/blob/7fe001c/docs/recipes/ReducingBoilerplate.md) really just swap one kind for another:
 
 ### Redux Example
 
-The following Redux example creates a store with two values; `foo` which may be incremented and `bar` which may be decremented.
+Consider the following Redux example that creates a store with two numbers: `foo` which may be incremented and `bar` which may be decremented.
 
 ```js
-import { createStore, combineReducers } from 'redux';
-
 // foo
 
 const FOO_INCREMENT = 'FOO_INCREMENT';
@@ -156,7 +131,7 @@ const fooActions = {
 };
 
 function foo(state = {}, action) {
-    if (action.type in foo) {
+    if (action.type in fooActions) {
         return fooActions[action.type](state, action);
     }
 
@@ -183,7 +158,7 @@ const barActions = {
 };
 
 function bar(state, action) {
-    if (action.type in bar) {
+    if (action.type in barActions) {
         return barActions[action.type](state, action);
     }
 
@@ -199,6 +174,8 @@ function createBarDecrementAction(payload) {
 
 // store
 
+import { createStore, combineReducers } from 'redux';
+
 const reducer = combineReducers({ foo, bar });
 const store = createStore(reducer, {});
 
@@ -207,7 +184,7 @@ const store = createStore(reducer, {});
 store.dispatch(createFooIncrementAction(1));
 store.dispatch(createBarDecrementAction(1));
 
-store.getState();
+console.log(store.getState());
 // {
 //   foo: 1,
 //   bar: -1
@@ -216,19 +193,17 @@ store.getState();
 
 Split that up into modules and you can see how new-comers could easily be overwhelmed when the underlying principles are beautifully clean and simple.
 
-### Deduce Exmaple
+### Deduce Example
 
 Compare [the above](#redux-example) with this `deduce` example that does the same thing:
 
 ```js
-import { createStoreMap } from 'deduce';
-
 // foo
 
 const fooInitial = 0;
 
 const foo = {
-    fooIncrement(state = fooInitial, val) {
+    incrementFoo(state = fooInitial, val) {
         return state + val;
     }
 };
@@ -238,21 +213,25 @@ const foo = {
 const barInitial = 0;
 
 const bar = {
-    barDecrement(state = barInitial, val) {
+    decrementBar(state = barInitial, val) {
         return state - val;
     }
 };
 
 // store
 
-const store = createStoreMap({ foo, bar });
+import deduce from 'deduce';
+
+const store = deduce()
+    .addActionsFor('foo', foo)
+    .addActionsFor('bar', bar);
 
 // application
 
-store.fooIncrement(1);
-store.barDecrement(1);
+store.incrementFoo(1);
+store.decrementBar(1);
 
-store.getState();
+console.log(store.state);
 // {
 //   foo: 1,
 //   bar: -1

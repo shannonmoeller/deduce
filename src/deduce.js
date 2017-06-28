@@ -38,6 +38,18 @@ export default function (state = {}, actions = {}) {
 		};
 	}
 
+	function addActionFor(property, obj, name, action) {
+		if (typeof action !== 'function') {
+			throw new TypeError(`Action must be a function: ${name}`);
+		}
+
+		addAction(obj, name, (state, ...args) => {
+			return Object.assign(state, {
+				[property]: action(state[property], ...args)
+			});
+		});
+	}
+
 	const store = {
 		get state() {
 			return state;
@@ -46,6 +58,14 @@ export default function (state = {}, actions = {}) {
 		addActions(actions) {
 			Object.keys(actions).forEach(name => {
 				addAction(this, name, actions[name]);
+			});
+
+			return this;
+		},
+
+		addActionsFor(property, actions) {
+			Object.keys(actions).forEach(name => {
+				addActionFor(property, this, name, actions[name]);
 			});
 
 			return this;

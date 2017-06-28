@@ -35,13 +35,11 @@ test('should not reassign actions', t => {
 });
 
 test('should not add non-function actions', t => {
-	const store = deduce(1, {
-		increment: x => x + 1
-	});
+	const store = deduce(1);
 
 	t.throws(() => {
 		store.addActions({
-			decrement: 1
+			increment: 1
 		});
 	});
 });
