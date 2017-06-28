@@ -27,9 +27,7 @@
     "ava": "^0.19.1",
     "babel-cli": "^6.24.1",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
     "babel-register": "^6.24.1",
     "coveralls": "^2.13.1",
     "nyc": "^11.0.2",
@@ -44,10 +42,17 @@
   },
   "babel": {
     "plugins": [
-      "add-module-exports",
-      "transform-es2015-modules-commonjs",
-      "transform-es2015-parameters",
-      "transform-async-to-generator"
+      "add-module-exports"
+    ],
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": 4
+          }
+        }
+      ]
     ]
   },
   "engines": {

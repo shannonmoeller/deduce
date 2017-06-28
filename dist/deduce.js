@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function () {
-	let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	let actions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	var actions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	const listeners = new Set();
-	let isDispatching = false;
+	var listeners = new Set();
+	var isDispatching = false;
 
 	function dispatchAction(action, args) {
 		if (isDispatching) {
@@ -19,9 +19,11 @@ exports.default = function () {
 		isDispatching = true;
 
 		try {
-			state = action(state, ...args);
+			state = action.apply(undefined, [state].concat(_toConsumableArray(args)));
 
-			listeners.forEach(x => x());
+			listeners.forEach(function (x) {
+				return x();
+			});
 		} catch (err) {
 			isDispatching = false;
 
@@ -62,27 +64,31 @@ exports.default = function () {
 			}
 
 			return Object.assign(state, {
-				[property]: action(state[property], ...args)
+				[property]: action.apply(undefined, [state[property]].concat(args))
 			});
 		});
 	}
 
-	const store = {
+	var store = {
 		get state() {
 			return state;
 		},
 
 		addActions(actions) {
-			Object.keys(actions).forEach(name => {
-				addAction(this, name, actions[name]);
+			var _this = this;
+
+			Object.keys(actions).forEach(function (name) {
+				addAction(_this, name, actions[name]);
 			});
 
 			return this;
 		},
 
 		addActionsFor(property, actions) {
-			Object.keys(actions).forEach(name => {
-				addActionFor(property, this, name, actions[name]);
+			var _this2 = this;
+
+			Object.keys(actions).forEach(function (name) {
+				addActionFor(property, _this2, name, actions[name]);
 			});
 
 			return this;
@@ -95,7 +101,7 @@ exports.default = function () {
 
 			listeners.add(listener);
 
-			return () => {
+			return function () {
 				listeners.delete(listener);
 			};
 		}
@@ -103,5 +109,7 @@ exports.default = function () {
 
 	return store.addActions(actions);
 };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 module.exports = exports['default'];
