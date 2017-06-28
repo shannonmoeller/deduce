@@ -27,7 +27,7 @@ export function decrement(state, val = 1) {
 
 // store.js
 
-import { composeStore } from 'deduce';
+import deduce from 'deduce';
 import * as reducers from './reducers';
 
 const store = composeStore(reducers, '1');

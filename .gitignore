@@ -1,8 +1,8 @@
 .nyc_output/
 coverage/
-lib/
 node_modules/
 
 *.log
 *.swp
+.DS_Store
 .npmignore

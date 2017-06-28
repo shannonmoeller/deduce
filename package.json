@@ -1,83 +1,54 @@
 {
   "name": "deduce",
-  "version": "0.0.0-semantic-release",
+  "version": "0.2.2",
   "description": "Composable state containers.",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/shannonmoeller/deduce.git"
-  },
-  "homepage": "https://github.com/shannonmoeller/deduce#readme",
-  "author": {
-    "name": "Shannon Moeller",
-    "email": "me@shannonmoeller.com",
-    "url": "http://shannonmoeller.com"
-  },
-  "main": "lib/deduce.js",
-  "files": [
-    "lib"
-  ],
-  "dependencies": {},
-  "devDependencies": {
-    "ava": "^0.16.0",
-    "babel-cli": "^6.14.0",
-    "babel-polyfill": "^6.13.0",
-    "babel-preset-es2015": "^6.14.0",
-    "babel-preset-stage-2": "^6.13.0",
-    "babel-register": "^6.14.0",
-    "chokidar-cli": "^1.2.0",
-    "coveralls": "^2.11.12",
-    "nyc": "^8.1.0",
-    "rimraf": "^2.5.4",
-    "semantic-release": "^4.3.5",
-    "xo": "^0.16.0"
-  },
   "scripts": {
-    "coveralls": "nyc report -r text-lcov | coveralls",
-    "prepublish": "rimraf lib && babel src --out-dir lib",
-    "pretest": "xo '*.js' '{src,test}/**/*.js'",
-    "release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "nyc -r lcov -r text ava -v",
-    "watch": "chokidar '{src,test}/**/*.js' -c 'npm test'"
+    "prepublish": "rimraf dist && babel src --out-dir dist",
+    "report": "nyc report -r text-lcov | coveralls",
+    "test": "xo && nyc ava"
   },
-  "engines": {
-    "node": ">= 0.12"
+  "keywords": [
+    "state",
+    "container",
+    "reduce",
+    "redux",
+    "flux",
+    "actions"
+  ],
+  "author": "Shannon Moeller <me@shannonmoeller> (http://shannonmoeller.com)",
+  "homepage": "https://github.com/shannonmoeller/deduce#readme",
+  "repository": "shannonmoeller/deduce",
+  "license": "MIT",
+  "main": "dist/deduce.js",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "babel-cli": "^6.24.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "coveralls": "^2.13.1",
+    "nyc": "^11.0.2",
+    "rimraf": "^2.6.1",
+    "xo": "^0.18.2"
   },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-2"
-    ]
-  },
-  "nyc": {
+  "ava": {
+    "babel": "inherit",
     "require": [
-      "babel-polyfill",
       "babel-register"
     ]
   },
-  "xo": {
-    "rules": {
-      "brace-style": [
-        2,
-        "stroustrup"
-      ],
-      "eqeqeq": [
-        2,
-        "allow-null"
-      ],
-      "no-eq-null": 0,
-      "object-curly-spacing": [
-        2,
-        "always"
-      ],
-      "operator-linebreak": [
-        2,
-        "before"
-      ],
-      "babel/object-curly-spacing": [
-        2,
-        "always"
-      ]
-    }
+  "babel": {
+    "plugins": [
+      "add-module-exports",
+      "transform-es2015-modules-commonjs",
+      "transform-async-to-generator"
+    ]
+  },
+  "engines": {
+    "node": ">= 4"
   }
 }

@@ -1,4 +1,10 @@
-export default function (state = {}, actions = {}) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+exports.default = function (state = {}) {
 	const listeners = new Set();
 	let isDispatching = false;
 
@@ -38,7 +44,7 @@ export default function (state = {}, actions = {}) {
 		};
 	}
 
-	const store = {
+	return {
 		get state() {
 			return state;
 		},
@@ -52,18 +58,13 @@ export default function (state = {}, actions = {}) {
 		},
 
 		addListener(listener) {
-			if (typeof listener !== 'function') {
-				throw new TypeError(`Listener must be a function.`);
-			}
-
 			listeners.add(listener);
 
 			return () => {
-				listeners.delete(listener);
+				listeners.remove(listener);
 			};
 		}
 	};
+};
 
-	return store
-		.addActions(actions);
-}
+module.exports = exports['default'];
