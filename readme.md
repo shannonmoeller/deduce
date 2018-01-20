@@ -1,4 +1,4 @@
-# `deduce`
+# deduce
 
 [![NPM version][npm-img]][npm-url]
 [![Downloads][downloads-img]][npm-url]
@@ -248,9 +248,7 @@ Standards for this project, including tests, code coverage, and semantics are en
 
 ----
 
-© Shannon Moeller <me@shannonmoeller.com> (http://shannonmoeller.com)
-
-Licensed under [MIT](http://shannonmoeller.com/mit.txt)
+MIT © [Shannon Moeller](http://shannonmoeller.com)
 
 [amazon-img]:    https://img.shields.io/badge/amazon-tip_jar-yellow.svg?style=flat-square
 [amazon-url]:    https://www.amazon.com/gp/registry/wishlist/1VQM9ID04YPC5?sort=universal-price
