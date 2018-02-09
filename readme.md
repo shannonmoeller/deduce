@@ -6,7 +6,7 @@
 [![Coverage Status][coveralls-img]][coveralls-url]
 [![Tip][amazon-img]][amazon-url]
 
-Ridiculously easy JavaScript state containers with action methods. Like [Redux](https://github.com/reactjs/redux) without all the `switch` statements.
+Ridiculously easy JavaScript state containers with reducer methods. Like [Redux](https://github.com/reactjs/redux) without all of the boilerplate.
 
 ## Install
 
@@ -46,10 +46,10 @@ store.decrement(2); // -> 1
 
 ## API
 
-### deduce(initialState, actions) : Store
+### deduce(initialState, reducers) : Store
 
-- `initialState` `*`
-- `actions` `Object<String,Function>`
+- `initialState` `{*}`
+- `reducers` `{Object<String,Function>}`
 
 ### Store
 
@@ -63,14 +63,14 @@ const store = deduce({ foo: 1 });
 console.log(store.state); // -> { foo: 1 }
 ```
 
-#### .addActions(actions): Store
+#### .addReducers(reducers): Store
 
-- `actions` `Object<String,Function>`
+- `reducers` `{Object<String,Function>}`
 
-Registers actions to modify the state. Chainable.
+Registers reducers to modify the state. Chainable.
 
 ```js
-store.addActions({
+store.addReducers({
     increment(state, val) {
         return {
             ...state,
@@ -80,15 +80,15 @@ store.addActions({
 });
 ```
 
-#### .addActionsFor(property, actions): Store
+#### .addReducersFor(property, reducers): Store
 
-- `property` `String`
-- `actions` `Object<String,Function>`
+- `property` `{String}`
+- `reducers` `{Object<String,Function>}`
 
-Registers actions to modify a specific state property. Chainable.
+Registers reducers to modify a specific state property. Chainable.
 
 ```js
-store.addActionsFor('foo', {
+store.addReducersFor('foo', {
     increment(state, val) {
         return state + val;
     },
@@ -97,7 +97,7 @@ store.addActionsFor('foo', {
 
 #### .addListener(callback): Function
 
-- `callback` `Function`
+- `callback` `{Function}`
 
 Adds a listener to be called any time the state is updated. Returns a function to remove the listener.
 
@@ -124,15 +124,15 @@ const FOO_INCREMENT = 'FOO_INCREMENT';
 
 const fooInitial = 0;
 
-const fooActions = {
+const fooReducers = {
     [FOO_INCREMENT]: (state = fooInitial, action) {
         return state + action.payload;
     }
 };
 
 function foo(state = {}, action) {
-    if (action.type in fooActions) {
-        return fooActions[action.type](state, action);
+    if (action.type in fooReducers) {
+        return fooReducers[action.type](state, action);
     }
 
     return state;
@@ -151,15 +151,15 @@ const BAR_DECREMENT = 'BAR_DECREMENT';
 
 const barInitial = 0;
 
-const barActions = {
+const barReducers = {
     [BAR_DECREMENT]: (state = barInitial, action) {
         return state - action.payload;
     }
 };
 
 function bar(state, action) {
-    if (action.type in barActions) {
-        return barActions[action.type](state, action);
+    if (action.type in barReducers) {
+        return barReducers[action.type](state, action);
     }
 
     return state;
@@ -202,7 +202,7 @@ Compare [the above](#redux-example) with this `deduce` example that does the sam
 
 const fooInitial = 0;
 
-const foo = {
+const fooReducers = {
     incrementFoo(state = fooInitial, val) {
         return state + val;
     }
@@ -212,7 +212,7 @@ const foo = {
 
 const barInitial = 0;
 
-const bar = {
+const barReducers = {
     decrementBar(state = barInitial, val) {
         return state - val;
     }
@@ -223,8 +223,8 @@ const bar = {
 import deduce from 'deduce';
 
 const store = deduce()
-    .addActionsFor('foo', foo)
-    .addActionsFor('bar', bar);
+    .addReducersFor('foo', fooReducers)
+    .addReducersFor('bar', barReducers);
 
 // application
 

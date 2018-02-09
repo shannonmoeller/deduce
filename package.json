@@ -1,11 +1,19 @@
 {
   "name": "deduce",
   "version": "1.0.0",
-  "description": "Composable state containers.",
+  "description": "Ridiculously easy JavaScript state containers with reducer methods.",
   "scripts": {
-    "prepublish": "rimraf dist && babel src --out-dir dist",
+    "build": "rm -rf dist && mkdir dist && rollup -c",
+    "lint": "run-s lint-*",
+    "lint-prettier": "prettier $npm_package_config_ignore --write '{src,test}/**/*.js'",
+    "lint-eslint": "eslint $npm_package_config_ignore --fix '{src,test}/**/*.js'",
+    "test": "nyc -r none run-s test-* && nyc report -r lcov -r text",
+    "test-node": "rollup test/node.js -c rollup.test.js | node | tap-diff",
+    "test-browser": "rollup test/browser.js -c rollup.test.js | run-headless | tap-diff",
     "report": "nyc report -r text-lcov | coveralls",
-    "test": "xo && nyc ava"
+    "pretest": "run-s lint",
+    "precommit": "run-s test build && git add .",
+    "prepublishOnly": "git diff-index --quiet HEAD"
   },
   "keywords": [
     "state",
@@ -16,46 +24,47 @@
     "actions"
   ],
   "author": "Shannon Moeller <me@shannonmoeller> (http://shannonmoeller.com)",
-  "homepage": "https://github.com/shannonmoeller/deduce#readme",
   "repository": "shannonmoeller/deduce",
   "license": "MIT",
-  "main": "dist/deduce.js",
+  "main": "dist/deduce.cjs.js",
+  "module": "dist/deduce.es.js",
   "files": [
-    "dist"
+    "dist",
+    "*.md"
   ],
+  "dependencies": {},
   "devDependencies": {
-    "ava": "^0.19.1",
-    "babel-cli": "^6.24.1",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.5.2",
-    "babel-register": "^6.24.1",
-    "coveralls": "^2.13.1",
-    "nyc": "^11.0.2",
-    "rimraf": "^2.6.1",
-    "xo": "^0.18.2"
+    "blue-tape": "^1.0.0",
+    "coveralls": "^3.0.0",
+    "eslint": "^4.17.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-whim": "^3.0.0",
+    "husky": "^0.14.3",
+    "lodash.camelcase": "^4.3.0",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.4.1",
+    "prettier": "^1.10.2",
+    "rollup": "^0.55.3",
+    "rollup-plugin-istanbul": "^2.0.0",
+    "rollup-preset-isomorphic": "^1.0.0-4",
+    "run-headless": "^2.0.1",
+    "tap-diff": "^0.1.1"
   },
-  "ava": {
-    "babel": "inherit",
-    "require": [
-      "babel-register"
-    ]
+  "prettier": {
+    "single-quote": true,
+    "trailing-comma": "es5"
   },
-  "babel": {
-    "plugins": [
-      "add-module-exports"
-    ],
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": 4
-          }
-        }
-      ]
+  "eslintConfig": {
+    "env": {
+      "es6": true
+    },
+    "extends": [
+      "eslint-config-whim",
+      "eslint-config-prettier"
     ]
   },
   "engines": {
-    "node": ">= 4"
+    "node": ">= 6",
+    "npm": ">= 3"
   }
 }

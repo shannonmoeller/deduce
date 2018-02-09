@@ -1,29 +1,25 @@
-import test from 'ava';
-import deduce from '../src/deduce';
+import test from 'blue-tape';
+import deduce from '../src/index.js';
 
-test('should add listeners', t => {
-	t.plan(1);
-
+test('should add listeners', async t => {
 	const store = deduce(1, {
-		increment: x => x + 1
+		increment: x => x + 1,
 	});
 
 	store.addListener(() => {
-		t.is(store.state, 2);
+		t.equal(store.state, 2);
 	});
 
 	store.increment();
 });
 
-test('should remove listeners', t => {
-	t.plan(1);
-
+test('should remove listeners', async t => {
 	const store = deduce(1, {
-		increment: x => x + 1
+		increment: x => x + 1,
 	});
 
 	store.addListener(() => {
-		t.is(store.state, 2);
+		t.equal(store.state, 2);
 	});
 
 	const removeListener = store.addListener(() => {
@@ -35,26 +31,24 @@ test('should remove listeners', t => {
 	store.increment();
 });
 
-test('should not readd listeners', t => {
-	t.plan(1);
-
+test('should not readd listeners', async t => {
 	const store = deduce(1, {
-		increment: x => x + 1
+		increment: x => x + 1,
 	});
 
-	function aListener() {
-		t.is(store.state, 2);
+	function listener() {
+		t.equal(store.state, 2);
 	}
 
-	store.addListener(aListener);
-	store.addListener(aListener);
+	store.addListener(listener);
+	store.addListener(listener);
 
 	store.increment();
 });
 
-test('should not add non-function listeners', t => {
+test('should not add non-function listeners', async t => {
 	const store = deduce(1, {
-		increment: x => x + 1
+		increment: x => x + 1,
 	});
 
 	t.throws(() => {
@@ -62,9 +56,9 @@ test('should not add non-function listeners', t => {
 	});
 });
 
-test('should not allow actions in listeners', t => {
+test('should not allow redcuer execution in listeners', async t => {
 	const store = deduce(1, {
-		increment: x => x + 1
+		increment: x => x + 1,
 	});
 
 	store.addListener(() => {

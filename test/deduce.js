@@ -1,22 +1,22 @@
-import test from 'ava';
-import deduce from '../src/deduce';
+import test from 'blue-tape';
+import deduce from '../src/index.js';
 
-test('should contain state', t => {
+test('should contain state', async t => {
 	const storeA = deduce();
-	const storeB = deduce({foo: 'bar'});
+	const storeB = deduce({ foo: 'bar' });
 
 	t.deepEqual(storeA.state, {});
-	t.deepEqual(storeB.state, {foo: 'bar'});
+	t.deepEqual(storeB.state, { foo: 'bar' });
 });
 
-test('should modify state', t => {
+test('should modify state', async t => {
 	const store = deduce(1, {
-		increment: x => x + 1
+		increment: x => x + 1,
 	});
 
-	t.is(store.state, 1);
+	t.equal(store.state, 1);
 
 	store.increment();
 
-	t.is(store.state, 2);
+	t.equal(store.state, 2);
 });
