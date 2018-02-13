@@ -1,6 +1,6 @@
 {
   "name": "deduce",
-  "version": "2.0.0-1",
+  "version": "2.0.0-2",
   "description": "Ridiculously easy JavaScript state containers with reducer methods.",
   "scripts": {
     "build": "rm -rf dist && mkdir dist && rollup -c",
