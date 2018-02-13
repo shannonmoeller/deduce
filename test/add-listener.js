@@ -1,9 +1,9 @@
 import test from 'blue-tape';
 import deduce from '../src/index.js';
 
-test('should add listeners', async t => {
+test('should add listeners', async (t) => {
 	const store = deduce(1, {
-		increment: x => x + 1,
+		increment: (x) => x + 1,
 	});
 
 	store.addListener(() => {
@@ -13,9 +13,9 @@ test('should add listeners', async t => {
 	store.increment();
 });
 
-test('should remove listeners', async t => {
+test('should remove listeners', async (t) => {
 	const store = deduce(1, {
-		increment: x => x + 1,
+		increment: (x) => x + 1,
 	});
 
 	store.addListener(() => {
@@ -31,9 +31,9 @@ test('should remove listeners', async t => {
 	store.increment();
 });
 
-test('should not readd listeners', async t => {
+test('should not readd listeners', async (t) => {
 	const store = deduce(1, {
-		increment: x => x + 1,
+		increment: (x) => x + 1,
 	});
 
 	function listener() {
@@ -46,9 +46,9 @@ test('should not readd listeners', async t => {
 	store.increment();
 });
 
-test('should not add non-function listeners', async t => {
+test('should not add non-function listeners', async (t) => {
 	const store = deduce(1, {
-		increment: x => x + 1,
+		increment: (x) => x + 1,
 	});
 
 	t.throws(() => {
@@ -56,9 +56,9 @@ test('should not add non-function listeners', async t => {
 	});
 });
 
-test('should not allow redcuer execution in listeners', async t => {
+test('should not allow redcuer execution in listeners', async (t) => {
 	const store = deduce(1, {
-		increment: x => x + 1,
+		increment: (x) => x + 1,
 	});
 
 	store.addListener(() => {

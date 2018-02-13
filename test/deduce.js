@@ -1,7 +1,7 @@
 import test from 'blue-tape';
 import deduce from '../src/index.js';
 
-test('should contain state', async t => {
+test('should contain state', async (t) => {
 	const storeA = deduce();
 	const storeB = deduce({ foo: 'bar' });
 
@@ -9,9 +9,9 @@ test('should contain state', async t => {
 	t.deepEqual(storeB.state, { foo: 'bar' });
 });
 
-test('should modify state', async t => {
+test('should modify state', async (t) => {
 	const store = deduce(1, {
-		increment: x => x + 1,
+		increment: (x) => x + 1,
 	});
 
 	t.equal(store.state, 1);

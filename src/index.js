@@ -12,7 +12,7 @@ export default function(state = {}, reducers = {}) {
 		try {
 			state = reducer(state, ...args);
 
-			listeners.forEach(x => x());
+			listeners.forEach((x) => x());
 		} catch (err) {
 			isDispatching = false;
 
@@ -56,7 +56,7 @@ export default function(state = {}, reducers = {}) {
 		},
 
 		addReducers(reducers) {
-			Object.keys(reducers).forEach(name => {
+			Object.keys(reducers).forEach((name) => {
 				addReducer(this, name, reducers[name]);
 			});
 
@@ -64,7 +64,7 @@ export default function(state = {}, reducers = {}) {
 		},
 
 		addReducersFor(property, reducers) {
-			Object.keys(reducers).forEach(name => {
+			Object.keys(reducers).forEach((name) => {
 				addReducerFor(property, this, name, reducers[name]);
 			});
 
